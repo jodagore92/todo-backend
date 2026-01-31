@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.api.v1 import api_router
 
-app = FastAPI(title="ToDo API")
+app = FastAPI(title="ToDo API", redirect_slashes=True)
 
 app.include_router(api_router)
     

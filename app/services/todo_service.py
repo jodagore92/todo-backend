@@ -39,3 +39,6 @@ def delete_todo(todo_id: int) -> bool:
 
     todo_repository.delete(todo_id)
     return True
+
+def reset_fake_data():
+    todo_repository.reset_fake_data()

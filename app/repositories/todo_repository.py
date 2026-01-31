@@ -32,3 +32,10 @@ def update(todo: Todo) -> Todo:
 def delete(todo_id: int) -> None:
     global _todos
     _todos = [t for t in _todos if t.id != todo_id]
+
+def reset_fake_data():
+    _todos.clear()
+    _todos.extend([
+        Todo(id=1, title="Test 1", description=None, completed=False),
+        Todo(id=2, title="Test 2", description=None, completed=False),
+    ])

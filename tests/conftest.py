@@ -1,8 +1,14 @@
 import pytest
-from app.repositories import todo_repository
+from fastapi.testclient import TestClient
+from app.main import app
+from app.services import todo_service
 
 
 @pytest.fixture(autouse=True)
-def reset_repository():
-    todo_repository._todos.clear()
-    todo_repository._next_id = 1
+def reset_fake_db():
+    todo_service.reset_fake_data()
+
+
+@pytest.fixture
+def client():
+    return TestClient(app)
