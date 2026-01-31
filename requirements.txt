@@ -3,3 +3,7 @@ uvicorn[standard]
 pytest
 pydantic
 httpx
+sqlalchemy
+psycopg2-binary
+alembic
+python-dotenv
