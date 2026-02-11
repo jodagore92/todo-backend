@@ -7,7 +7,9 @@ class Settings(BaseSettings):
     postgres_host: str
     postgres_port: int
 
+
     class Config:
         env_file = ".env"
+        extra = "ignore"
 
 settings = Settings()
