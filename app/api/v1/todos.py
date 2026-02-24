@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from typing import List
+from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.schemas.todo import TodoCreate, TodoResponse, TodoUpdate
