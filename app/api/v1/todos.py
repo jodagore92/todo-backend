@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, status, Depends
 from typing import List
 from sqlalchemy.orm import Session
+from app.core.exceptions import NotFoundException
 
 from app.core.database import get_db
 from app.schemas.todo import TodoCreate, TodoResponse, TodoUpdate
@@ -20,10 +21,7 @@ def get_todos(db: Session = Depends(get_db)):
 def get_todo(todo_id: int, db: Session = Depends(get_db)):
     todo = todo_service.get_todo_by_id(db, todo_id)
     if not todo:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="ToDo no encontrado"
-        )
+        raise NotFoundException("Todo")
     return todo
 
 @router.post("/", response_model=TodoResponse, status_code=status.HTTP_201_CREATED)
@@ -35,10 +33,7 @@ def create_todo(todo: TodoCreate, db: Session = Depends(get_db)):
 def update_todo(todo_id: int, todo_update: TodoUpdate, db: Session = Depends(get_db)):
     todo = todo_service.update_todo(db, todo_id, todo_update)
     if not todo:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="ToDo no encontrado"
-        )
+        raise NotFoundException("Todo")
     return todo
 
 
@@ -46,7 +41,4 @@ def update_todo(todo_id: int, todo_update: TodoUpdate, db: Session = Depends(get
 def delete_todo(todo_id: int, db: Session = Depends(get_db)):
     deleted = todo_service.delete_todo(db, todo_id)
     if not deleted:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="ToDo no encontrado"
-        )
+        raise NotFoundException("Todo")
