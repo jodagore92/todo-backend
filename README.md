@@ -143,15 +143,13 @@ docker exec -it todo_backend pytest
 
 * Listado de todos los ítems
 * Crear, actualizar y eliminar tareas
-* Login y registro de usuarios
 * Interacción con backend vía API
-* UI responsiva y dinámica
+> Futuro: Login y registro de usuarios, UI responsiva y dinámica
 
 ---
 
 ## 🔮 Próximos pasos sugeridos
 
-* Implementar base de datos real (PostgreSQL o SQLite)
 * Añadir JWT / autenticación completa
 * Tests de integración backend + frontend
 * Mejorar UI con librerías de componentes (Vuetify, Tailwind)
