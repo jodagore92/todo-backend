@@ -1,3 +1,5 @@
+version: '3.9'
+
 services:
   backend:
     build:
@@ -6,8 +8,6 @@ services:
     container_name: todo_backend
     ports:
       - "8001:8000"
-    volumes:
-      - ./backend:/app
     env_file:
       - .env
     depends_on:
@@ -25,6 +25,17 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  
+  frontend:
+    build:
+      context: .    # raíz del proyecto
+      dockerfile: frontend/docker/Dockerfile
+    container_name: todo_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: always
 
 volumes:
   postgres_data:

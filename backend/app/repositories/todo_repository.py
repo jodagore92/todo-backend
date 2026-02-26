@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import desc
 from app.models.todo import Todo
 
 
 def get_all(db: Session):
-    return db.query(Todo).all()
+    return db.query(Todo).order_by(desc(Todo.id)).all()
 
 
 def get_by_id(db: Session, todo_id: int):

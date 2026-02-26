@@ -1,47 +1,76 @@
-# 📝 ToDo Backend (FastAPI)
+# 📝 ToDo Fullstack (FastAPI + Vue 3)
 
-Backend de una aplicación **ToDo List** construido con **FastAPI**, siguiendo principios de **arquitectura limpia**, con **Docker**, **tests automatizados** y separación clara de responsabilidades.
+Proyecto **ToDo List** fullstack, con **backend en FastAPI** y **frontend en Vue 3 + Vite**, siguiendo buenas prácticas de **arquitectura limpia**, **Docker**, y **tests automatizados**.
 
-Este proyecto fue creado con fines de aprendizaje profesional y buenas prácticas backend.
+Este proyecto fue creado con fines de aprendizaje profesional y para demostrar un flujo completo de desarrollo backend + frontend.
 
 ---
 
 ## 🚀 Tecnologías usadas
 
-- **Python 3.12**
-- **FastAPI**
-- **Pydantic v2**
-- **Pytest**
-- **Docker / Docker Compose**
-- **Uvicorn**
-- Arquitectura limpia (Services, Repositories, Models, Schemas)
+### Backend
+
+* **Python 3.12**
+* **FastAPI**
+* **Pydantic v2**
+* **Pytest**
+* **Uvicorn**
+* **Docker / Docker Compose**
+* Arquitectura limpia (Models, Schemas, Repositories, Services)
+
+### Frontend
+
+* **Vue 3**
+* **Vite**
+* **JavaScript / TypeScript**
+* **HTML5 / CSS3**
+* **Docker**
 
 ---
 
 ## 📁 Estructura del proyecto
 
 ```text
-todo-backend/
-├── app/
-│   ├── api/
-│   │   └── v1/
-│   │       └── todos.py
-│   ├── models/
-│   │   └── todo.py
-│   ├── schemas/
-│   │   └── todo.py
-│   ├── services/
-│   │   └── todo_service.py
-│   ├── repositories/
-│   │   └── todo_repository.py
-│   └── main.py
-├── tests/
-│   ├── conftest.py
-│   └── test_todos_service.py
-├── docker/
-│   └── Dockerfile
+todo-fullstack/
+├── backend/
+│   ├── app/
+│   │   ├── api/v1/
+│   │   │   ├── todos.py
+│   │   │   └── auth.py
+│   │   ├── models/
+│   │   │   ├── todo.py
+│   │   │   └── user.py
+│   │   ├── schemas/
+│   │   │   ├── todo.py
+│   │   │   └── user.py
+│   │   ├── services/
+│   │   │   ├── todo_service.py
+│   │   │   └── auth_service.py
+│   │   ├── repositories/
+│   │   │   ├── todo_repository.py
+│   │   │   └── user_repository.py
+│   │   └── main.py
+│   ├── tests/
+│   │   ├── conftest.py
+│   │   └── test_todos_service.py
+│   ├── docker/
+│   │   └── Dockerfile
+│   ├── requirements.txt
+│   └── alembic.ini
+├── frontend/
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── src/
+│   │   ├── components/
+│   │   │   └── TodoList.vue
+│   │   ├── views/
+│   │   │   └── Home.vue
+│   │   └── main.js
+│   ├── docker/
+│   │   └── Dockerfile
+│   └── .env.local
 ├── docker-compose.yml
-├── requirements.txt
 └── README.md
 ```
 
@@ -49,69 +78,90 @@ todo-backend/
 
 ## 🧠 Arquitectura
 
-- **Schemas**: DTOs de entrada y salida (Pydantic)
-- **Models**: Entidades de dominio (dataclasses)
-- **Services**: Lógica de negocio
-- **Repositories**: Acceso a datos (en memoria, por ahora)
-- **Routers**: Capa HTTP (FastAPI)
+### Backend
 
-Los services **no dependen de FastAPI ni de la base de datos**, lo que facilita testing y escalabilidad.
+* **Schemas**: DTOs de entrada/salida (Pydantic)
+* **Models**: Entidades de dominio
+* **Services**: Lógica de negocio, independientes de FastAPI
+* **Repositories**: Acceso a datos (DB o in-memory)
+* **Routers**: Capa HTTP (FastAPI)
+
+### Frontend
+
+* **Components**: Componentes reutilizables (Vue)
+* **Views**: Páginas completas
+* **Store / Composables**: Lógica compartida entre componentes
+* **API Services**: Comunicación con backend
+
+El frontend consume los endpoints del backend a través de Axios o Fetch, manteniendo separación de responsabilidades.
 
 ---
 
-## 🐳 Levantar el proyecto con Docker
+## 🐳 Levantar el proyecto con Docker Compose
 
 ```bash
 docker-compose up --build
 ```
 
-La API quedará disponible en:
+La aplicación quedará disponible en:
 
-- http://localhost:8001
-- http://localhost:8001/docs (Swagger UI)
+* Backend: [http://localhost:8001](http://localhost:8001)
+* Frontend: [http://localhost:5173](http://localhost:5173)
+* API docs (Swagger UI): [http://localhost:8001/docs](http://localhost:8001/docs)
 
-> Internamente FastAPI corre en el puerto 8000, Docker lo expone en el 8001.
+> Internamente FastAPI corre en el puerto 8000 y Vite en 5173; Docker los expone según `docker-compose.yml`.
 
 ---
 
-## 🧪 Ejecutar tests
+## 🧪 Ejecutar tests (Backend)
 
 ```bash
 docker exec -it todo_backend pytest
 ```
 
-Características de los tests:
-- Tests unitarios de services
-- Repositorio reseteado automáticamente con fixtures
-- Sin dependencia de HTTP ni DB
+* Tests unitarios de services
+* Repositorio reseteado automáticamente con fixtures
+* Sin dependencia de HTTP ni DB real
 
 ---
 
-## 📌 Endpoints principales
+## 📌 Endpoints principales (Backend)
 
-| Método | Endpoint | Descripción |
-|------|---------|------------|
-| GET | /api/v1/todos | Listar todos |
-| GET | /api/v1/todos/{id} | Obtener por ID |
-| POST | /api/v1/todos | Crear todo |
-| PUT | /api/v1/todos/{id} | Actualizar |
-| DELETE | /api/v1/todos/{id} | Eliminar |
+| Método | Endpoint              | Descripción       |
+| ------ | --------------------- | ----------------- |
+| GET    | /api/v1/todos         | Listar todos      |
+| GET    | /api/v1/todos/{id}    | Obtener por ID    |
+| POST   | /api/v1/todos         | Crear todo        |
+| PUT    | /api/v1/todos/{id}    | Actualizar        |
+| DELETE | /api/v1/todos/{id}    | Eliminar          |
+| POST   | /api/v1/auth/login    | Login de usuario  |
+| POST   | /api/v1/auth/register | Registrar usuario |
+
+---
+
+## ⚡ Funcionalidades Frontend
+
+* Listado de todos los ítems
+* Crear, actualizar y eliminar tareas
+* Login y registro de usuarios
+* Interacción con backend vía API
+* UI responsiva y dinámica
 
 ---
 
 ## 🔮 Próximos pasos sugeridos
 
-- Tests de API con `TestClient`
-- Base de datos real (SQLite + SQLAlchemy)
-- Autenticación JWT
-- Frontend en React
-- Docker Compose fullstack
+* Implementar base de datos real (PostgreSQL o SQLite)
+* Añadir JWT / autenticación completa
+* Tests de integración backend + frontend
+* Mejorar UI con librerías de componentes (Vuetify, Tailwind)
+* Docker Compose multi-servicio listo para producción
 
 ---
 
 ## 👨‍💻 Autor
 
-Proyecto desarrollado como práctica profesional de backend con Python y FastAPI.
+Proyecto desarrollado como práctica profesional fullstack, integrando **FastAPI + Vue 3 + Docker**.
 
 ---
 
