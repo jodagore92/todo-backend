@@ -1,16 +1,13 @@
-version: "3.9"
-
 services:
   backend:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: backend/docker/Dockerfile
     container_name: todo_backend
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
-    volumes:
-      - .:/app
     ports:
       - "8001:8000"
+    volumes:
+      - ./backend:/app
     env_file:
       - .env
     depends_on:
